@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Carta Personalizada Editable</title>
+  <style>
+    @font-face {
+      font-family: 'uni0553';
+      src: url('uni05_53.ttf') format('truetype');
+    }
+
+    body {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 30px;
+      min-height: 100vh;
+      background: #222;
+      margin: 0;
+      padding: 20px;
+      font-family: 'uni0553', monospace;
+      color: white;
+    }
+
+    .card {
+      width: 500px;
+      height: 700px;
+      background: #8B0000;
+      border: 8px solid #000;
+      box-shadow: 0px 6px 25px rgba(0,0,0,0.8);
+      position: relative;
+      color: white;
+      overflow: hidden;
+    }
+
+    .inner-border {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      right: 6px;
+      bottom: 6px;
+      border: 3px solid #FFD700;
+      pointer-events: none;
+    }
+
+    .corner {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 80px;
+      height: 80px;
+      background: #FFD700;
+      clip-path: polygon(100% 0, 0 0, 100% 100%);
+    }
+
+    .section {
+      padding: 8px 12px;
+      margin: 15px 15px 8px 15px;
+      border: 2px solid #000;
+      background: rgba(0,0,0,0.4);
+      border-radius: 3px;
+      font-size: 12px;
+      line-height: 1.3em;
+    }
+
+    .stats {
+      margin-top: 25px;
+      white-space: pre-line; /* mantiene saltos de línea */
+    }
+
+    .quote { 
+      font-style: italic; 
+      text-align: center; 
+      margin: 8px 15px;
+      font-size: 11px;
+    }
+
+    .abilities { 
+      font-weight: bold; 
+      text-align: center;
+      background: #000;
+      color: #00FF00;
+      margin: 8px 15px;
+    }
+
+    .name-box {
+      padding: 6px 12px;
+      margin: 8px 15px;
+      border: 2px solid #000;
+      background: rgba(0,0,0,0.6);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .character-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 15px 0;
+      height: 150px;
+      position: relative;
+    }
+
+    .character-section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 15px;
+      right: 15px;
+      bottom: 0;
+      background: rgba(0,0,0,0.3);
+      border: 2px solid #000;
+      border-radius: 3px;
+    }
+
+    .character img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;  /* hace que rellene el cuadro */
+      border-radius: 2px;
+    }
+
+    .weapons {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 25px;
+      margin: 10px 0;
+    }
+
+    .weapon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .weapon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* rellena el cuadro del arma */
+    }
+
+    .fighter-type {
+      text-align: center;
+      font-size: 15px;
+      margin: 8px 15px;
+      color: white;
+    }
+
+    .rareza {
+      position: absolute;
+      bottom: 16px;
+      left: 15px;
+      color: #FFD700;
+      font-size: 15px;
+      font-weight: bold;
+    }
+
+    .cualidad {
+      position: absolute;
+      bottom: 16px;
+      right: 15px;
+      color: #00b0ff;
+      font-size: 15px;
+      font-weight: bold;
+    }
+
+    .editor {
+      width: 300px;
+      background: #333;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 15px rgba(0,0,0,0.6);
+    }
+
+    .editor label {
+      display: block;
+      margin-top: 12px;
+      font-size: 14px;
+      color: #FFD700;
+    }
+
+    .editor input, .editor textarea, .editor select {
+      width: 100%;
+      margin-top: 5px;
+      padding: 6px;
+      font-family: 'uni0553', monospace;
+      font-size: 12px;
+    }
+
+    .editor input[type="color"] {
+      height: 40px;
+      padding: 0;
+    }
+
+    .editor button {
+      margin-top: 15px;
+      padding: 10px;
+      width: 100%;
+      font-size: 14px;
+      font-family: 'uni0553', monospace;
+      border: none;
+      border-radius: 5px;
+      background: #FFD700;
+      color: #000;
+      cursor: pointer;
+    }
+
+    .editor button:hover {
+      background: #FFA500;
+    }
+  </style>
+</head>
+<body>
+  <!-- Carta -->
+  <div id="carta" class="card">
+    <div class="inner-border" id="inner-border"></div>
+    <div class="corner"></div>
+
+    <div class="section stats" id="stats">
+Resistencia a los explosivos = 6
+Fuerza = 5
+Velocidad = 8
+    </div>
+
+    <div class="section quote" id="quote">
+      "Al fin lo tengo, esto me trae malos recuerdos"
+    </div>
+
+    <div class="section abilities" id="abilities">
+      Habilidades: Regenera 10 HP cada 2 turnos.
+    </div>
+
+    <div class="name-box" id="name-box">
+      DeadPoolSFD (80's)
+    </div>
+
+    <div class="character-section">
+      <div class="character" id="character">
+        <img src="" alt="Personaje">
+      </div>
+    </div>
+
+    <div class="weapons">
+      <div class="weapon">
+        <img id="weapon1" src="" alt="Arma melee">
+        <span>Arma melee</span>
+      </div>
+      <div class="weapon">
+        <img id="weapon2" src="" alt="Arma de fuego">
+        <span>Arma de fuego</span>
+      </div>
+    </div>
+
+    <div class="fighter-type" id="fighter-type">
+      Tipo: Luchador veterano
+    </div>
+
+    <div class="rareza" id="rareza">Legendario</div>
+    <div class="cualidad" id="cualidad">Determinado</div>
+  </div>
+
+  <!-- Editor -->
+  <div class="editor">
+    <label>Nombre del personaje:</label>
+    <input type="text" id="input-name" value="DeadPoolSFD (80's)">
+
+    <label>Estadísticas:</label>
+    <textarea id="input-stats">Resistencia a los explosivos = 6
+Fuerza = 5
+Velocidad = 8</textarea>
+
+    <label>Cita:</label>
+    <input type="text" id="input-quote" value="Al fin lo tengo, esto me trae malos recuerdos">
+
+    <label>Habilidades:</label>
+    <input type="text" id="input-abilities" value="Regenera 10 HP cada 2 turnos.">
+
+    <label>Tipo de luchador:</label>
+    <input type="text" id="input-type" value="Luchador veterano">
+
+    <label>Rareza:</label>
+    <select id="input-rareza">
+      <option value="Común">Común</option>
+      <option value="Raro">Raro</option>
+      <option value="Épico">Épico</option>
+      <option value="Legendario" selected>Legendario</option>
+    </select>
+
+    <label>Cualidad:</label>
+    <select id="input-cualidad">
+      <option value="Determinado" selected>Determinado</option>
+      <option value="Valiente">Valiente</option>
+      <option value="Astuto">Astuto</option>
+    </select>
+
+    <label>Imagen del personaje:</label>
+    <input type="file" id="input-character" accept="image/*">
+
+    <label>Imagen arma melee:</label>
+    <input type="file" id="input-weapon1" accept="image/*">
+
+    <label>Imagen arma de fuego:</label>
+    <input type="file" id="input-weapon2" accept="image/*">
+
+    <label>Color de fondo:</label>
+    <input type="color" id="input-bg" value="#8B0000">
+
+    <label>Color del borde interno:</label>
+    <input type="color" id="input-border" value="#FFD700">
+
+    <button onclick="actualizarCarta()">Actualizar Carta</button>
+    <button onclick="descargarImagen()">Descargar Imagen</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script>
+    function actualizarCarta() {
+      document.getElementById("name-box").innerText = document.getElementById("input-name").value;
+      document.getElementById("stats").innerText = document.getElementById("input-stats").value;
+      document.getElementById("quote").innerText = `"${document.getElementById("input-quote").value}"`;
+      document.getElementById("abilities").innerText = "Habilidades: " + document.getElementById("input-abilities").value;
+      document.getElementById("fighter-type").innerText = "Tipo: " + document.getElementById("input-type").value;
+      document.getElementById("rareza").innerText = document.getElementById("input-rareza").value;
+      document.getElementById("cualidad").innerText = document.getElementById("input-cualidad").value;
+
+      // Colores
+      document.querySelector(".card").style.background = document.getElementById("input-bg").value;
+      document.getElementById("inner-border").style.borderColor = document.getElementById("input-border").value;
+
+      // Imágenes
+      const charFile = document.getElementById("input-character").files[0];
+      if (charFile) {
+        document.getElementById("character").querySelector("img").src = URL.createObjectURL(charFile);
+      }
+      const weapon1File = document.getElementById("input-weapon1").files[0];
+      if (weapon1File) {
+        document.getElementById("weapon1").src = URL.createObjectURL(weapon1File);
+      }
+      const weapon2File = document.getElementById("input-weapon2").files[0];
+      if (weapon2File) {
+        document.getElementById("weapon2").src = URL.createObjectURL(weapon2File);
+      }
+    }
+
+    function descargarImagen() {
+      const carta = document.getElementById("carta");
+      html2canvas(carta, {
+        scale: 3,
+        useCORS: true,
+        allowTaint: false
+      }).then(canvas => {
+        // Escalar a 1500x2100
+        const finalCanvas = document.createElement("canvas");
+        finalCanvas.width = 1500;
+        finalCanvas.height = 2100;
+        const ctx = finalCanvas.getContext("2d");
+        ctx.drawImage(canvas, 0, 0, finalCanvas.width, finalCanvas.height);
+
+        const link = document.createElement("a");
+        link.download = "carta-personalizada.png";
+        link.href = finalCanvas.toDataURL("image/png");
+        link.click();
+      });
+    }
+  </script>
+</body>
+</html>
