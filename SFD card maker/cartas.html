@@ -66,7 +66,7 @@
 
     .stats {
       margin-top: 25px;
-      white-space: pre-line; /* mantiene saltos de línea */
+      white-space: pre-line;
     }
 
     .quote { 
@@ -79,8 +79,6 @@
     .abilities { 
       font-weight: bold; 
       text-align: center;
-      background: #000;
-      color: #00FF00;
       margin: 8px 15px;
     }
 
@@ -88,7 +86,6 @@
       padding: 6px 12px;
       margin: 8px 15px;
       border: 2px solid #000;
-      background: rgba(0,0,0,0.6);
       font-size: 13px;
       text-align: center;
     }
@@ -114,11 +111,20 @@
       border-radius: 3px;
     }
 
+    .character {
+      width: 120px;
+      height: 120px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1;
+      background: transparent;
+    }
+
     .character img {
       width: 100%;
       height: 100%;
-      object-fit: cover;  /* hace que rellene el cuadro */
-      border-radius: 2px;
+      object-fit: contain;
     }
 
     .weapons {
@@ -132,12 +138,15 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      width: 80px;
+      height: 60px;
+      background: transparent;
     }
 
     .weapon img {
       width: 100%;
       height: 100%;
-      object-fit: cover; /* rellena el cuadro del arma */
+      object-fit: contain;
     }
 
     .fighter-type {
@@ -153,7 +162,6 @@
       left: 15px;
       color: #FFD700;
       font-size: 15px;
-      font-weight: bold;
     }
 
     .cualidad {
@@ -162,52 +170,111 @@
       right: 15px;
       color: #00b0ff;
       font-size: 15px;
-      font-weight: bold;
     }
 
     .editor {
-      width: 300px;
+      width: 600px;
       background: #333;
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0px 4px 15px rgba(0,0,0,0.6);
     }
 
+    .editor h3 {
+      color: #FFD700;
+      margin-top: 0;
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .form-column {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group.full-width {
+      grid-column: span 2;
+    }
+
     .editor label {
       display: block;
-      margin-top: 12px;
-      font-size: 14px;
+      margin-bottom: 5px;
+      font-size: 13px;
       color: #FFD700;
+      font-weight: bold;
     }
 
     .editor input, .editor textarea, .editor select {
       width: 100%;
-      margin-top: 5px;
-      padding: 6px;
+      padding: 8px;
       font-family: 'uni0553', monospace;
       font-size: 12px;
+      border: 1px solid #555;
+      border-radius: 4px;
+      background: #444;
+      color: white;
+      box-sizing: border-box;
     }
 
     .editor input[type="color"] {
       height: 40px;
-      padding: 0;
+      padding: 2px;
+      cursor: pointer;
+    }
+
+    .editor textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .button-group {
+      grid-column: span 2;
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
     }
 
     .editor button {
-      margin-top: 15px;
-      padding: 10px;
-      width: 100%;
+      padding: 12px 20px;
+      flex: 1;
       font-size: 14px;
       font-family: 'uni0553', monospace;
       border: none;
-      border-radius: 5px;
+      border-radius: 6px;
       background: #FFD700;
       color: #000;
       cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s ease;
     }
 
     .editor button:hover {
       background: #FFA500;
+    }
+
+    .section-title {
+      grid-column: span 2;
+      color: #00b0ff;
+      font-size: 14px;
+      font-weight: bold;
+      margin: 20px 0 10px 0;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #555;
+    }
+
+    .section-title:first-child {
+      margin-top: 0;
     }
   </style>
 </head>
@@ -215,24 +282,27 @@
   <!-- Carta -->
   <div id="carta" class="card">
     <div class="inner-border" id="inner-border"></div>
-    <div class="corner"></div>
+    <div class="corner" id="corner"></div>
 
     <div class="section stats" id="stats">
-Resistencia a los explosivos = 6
-Fuerza = 5
-Velocidad = 8
+Estadística 1
+Estadística 2
+Estadística 3
+Estadística 4
+Estadística 5
+Estadística 6
     </div>
 
     <div class="section quote" id="quote">
-      "Al fin lo tengo, esto me trae malos recuerdos"
+      "Texto de cita"
     </div>
 
     <div class="section abilities" id="abilities">
-      Habilidades: Regenera 10 HP cada 2 turnos.
+      Habilidades: Texto de habilidades
     </div>
 
     <div class="name-box" id="name-box">
-      DeadPoolSFD (80's)
+      Nombre del personaje
     </div>
 
     <div class="character-section">
@@ -241,81 +311,224 @@ Velocidad = 8
       </div>
     </div>
 
-    <div class="weapons">
-      <div class="weapon">
-        <img id="weapon1" src="" alt="Arma melee">
-        <span>Arma melee</span>
-      </div>
-      <div class="weapon">
-        <img id="weapon2" src="" alt="Arma de fuego">
-        <span>Arma de fuego</span>
-      </div>
+  <!-- En la carta -->
+  <div class="weapons">
+    <div class="weapon">
+      <img id="weapon1" src="" alt="Arma melee">
+      <span id="weapon1-label">Arma</span> <!-- ✅ etiqueta editable -->
     </div>
+    <div class="weapon">
+      <img id="weapon2" src="" alt="Arma de fuego">
+      <span id="weapon2-label">Arma</span> <!-- ✅ etiqueta editable -->
+    </div>
+  </div>
+
 
     <div class="fighter-type" id="fighter-type">
-      Tipo: Luchador veterano
+      Tipo: Luchador
     </div>
 
-    <div class="rareza" id="rareza">Legendario</div>
-    <div class="cualidad" id="cualidad">Determinado</div>
+    <div class="rareza" id="rareza">Común</div>
+    <div class="cualidad" id="cualidad">Cualidad</div>
   </div>
 
   <!-- Editor -->
   <div class="editor">
-    <label>Nombre del personaje:</label>
-    <input type="text" id="input-name" value="DeadPoolSFD (80's)">
+    <h3>Editor de Carta</h3>
+    <div class="form-grid">
+      <!-- CONTENIDO -->
+      <div class="section-title">📝 CONTENIDO</div>
+      
+      <div class="form-group">
+        <label>Nombre del personaje:</label>
+        <input type="text" id="input-name" value="Nombre del personaje">
+      </div>
 
-    <label>Estadísticas:</label>
-    <textarea id="input-stats">Resistencia a los explosivos = 6
-Fuerza = 5
-Velocidad = 8</textarea>
+      <div class="form-group">
+        <label>Tipo de luchador:</label>
+        <input type="text" id="input-type" value="Luchador">
+      </div>
 
-    <label>Cita:</label>
-    <input type="text" id="input-quote" value="Al fin lo tengo, esto me trae malos recuerdos">
+      <div class="form-group full-width">
+        <label>Estadísticas:</label>
+        <textarea id="input-stats">Estadística 1
+Estadística 2
+Estadística 3
+Estadística 4
+Estadística 5
+Estadística 6</textarea>
+      </div>
 
-    <label>Habilidades:</label>
-    <input type="text" id="input-abilities" value="Regenera 10 HP cada 2 turnos.">
+      <div class="form-group">
+        <label>Cita:</label>
+        <input type="text" id="input-quote" value="Texto de cita">
+      </div>
 
-    <label>Tipo de luchador:</label>
-    <input type="text" id="input-type" value="Luchador veterano">
+      <div class="form-group">
+        <label>Habilidades:</label>
+        <input type="text" id="input-abilities" value="Texto de habilidades">
+      </div>
 
-    <label>Rareza:</label>
-    <select id="input-rareza">
-      <option value="Común">Común</option>
-      <option value="Raro">Raro</option>
-      <option value="Épico">Épico</option>
-      <option value="Legendario" selected>Legendario</option>
-    </select>
+      <div class="form-group">
+        <label>Rareza:</label>
+        <select id="input-rareza">
+          <option value="Común">Común</option>
+          <option value="Rara">Rara</option>
+          <option value="Especial">Especial</option>
+          <option value="Súper rara">Súper rara</option>
+          <option value="Legendaria">Legendaria</option>
+        </select>
+      </div>
 
-    <label>Cualidad:</label>
-    <select id="input-cualidad">
-      <option value="Determinado" selected>Determinado</option>
-      <option value="Valiente">Valiente</option>
-      <option value="Astuto">Astuto</option>
-    </select>
+      <div class="form-group">
+        <label>Cualidad:</label>
+        <input type="text" id="input-cualidad" value="Cualidad">
+      </div>
 
-    <label>Imagen del personaje:</label>
-    <input type="file" id="input-character" accept="image/*">
+      <!-- IMÁGENES -->
+      <div class="section-title">🖼️ IMÁGENES</div>
 
-    <label>Imagen arma melee:</label>
-    <input type="file" id="input-weapon1" accept="image/*">
+      <div class="form-group">
+        <label>Imagen del personaje:</label>
+        <input type="file" id="input-character" accept="image/*">
+      </div>
 
-    <label>Imagen arma de fuego:</label>
-    <input type="file" id="input-weapon2" accept="image/*">
+      <div class="form-group">
+        <label>Imagen arma 1:</label>
+        <input type="file" id="input-weapon1" accept="image/*">
+      </div>
 
-    <label>Color de fondo:</label>
-    <input type="color" id="input-bg" value="#8B0000">
+      <div class="form-group">
+        <label>Imagen arma 2:</label>
+        <input type="file" id="input-weapon2" accept="image/*">
+      </div>
 
-    <label>Color del borde interno:</label>
-    <input type="color" id="input-border" value="#FFD700">
+      <div class="form-group">
+        <label>Categoría arma 1:</label>
+        <input type="color" id="input-weapon1-text" value="#FFFFFF">
+        <select id="input-weapon1-type" onchange="actualizarOpciones()">
+          <option value="">-- Seleccionar --</option>
+          <option value="Arma melee">Arma melee</option>
+          <option value="Arma de fuego">Arma de fuego</option>
+          <option value="Objeto">Objeto</option>
+          <option value="Explosivo">Explosivo</option>
+          <option value="Arrojable">Arrojable</option>
+        </select>
+      </div>
 
-    <button onclick="actualizarCarta()">Actualizar Carta</button>
-    <button onclick="descargarImagen()">Descargar Imagen</button>
+      <div class="form-group">
+        <label>Categoría arma 2:</label>
+        <input type="color" id="input-weapon2-text" value="#FFFFFF">
+        <select id="input-weapon2-type" onchange="actualizarOpciones()">
+          <option value="">-- Seleccionar --</option>
+          <option value="Arma melee">Arma melee</option>
+          <option value="Arma de fuego">Arma de fuego</option>
+          <option value="Objeto">Objeto</option>
+          <option value="Explosivo">Explosivo</option>
+          <option value="Arrojable">Arrojable</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <!-- Espacio vacío para balance -->
+      </div>
+
+      <!-- COLORES DE FONDO -->
+      <div class="section-title">🎨 COLORES DE FONDO</div>
+
+      <div class="form-group">
+        <label>Color de fondo:</label>
+        <input type="color" id="input-bg" value="#8B0000">
+      </div>
+
+      <div class="form-group">
+        <label>Color del borde interno:</label>
+        <input type="color" id="input-border" value="#FFD700">
+      </div>
+
+      <div class="form-group">
+        <label>Color de la esquina:</label>
+        <input type="color" id="input-corner" value="#FFD700">
+      </div>
+
+      <div class="form-group">
+        <label>Fondo de estadísticas:</label>
+        <input type="color" id="input-stats-bg" value="#444444">
+      </div>
+
+      <div class="form-group">
+        <label>Fondo de cita:</label>
+        <input type="color" id="input-quote-bg" value="#333333">
+      </div>
+
+      <div class="form-group">
+        <label>Fondo de habilidades:</label>
+        <input type="color" id="input-abilities-bg" value="#000000">
+      </div>
+
+      <div class="form-group">
+        <label>Fondo del nombre:</label>
+        <input type="color" id="input-name-bg" value="#111111">
+      </div>
+
+      <div class="form-group">
+        <!-- Espacio vacío para balance -->
+      </div>
+
+      <!-- COLORES DE TEXTO -->
+      <div class="section-title">✏️ COLORES DE TEXTO</div>
+
+      <div class="form-group">
+        <label>Texto de estadísticas:</label>
+        <input type="color" id="input-stats-text" value="#FFFFFF">
+      </div>
+
+      <div class="form-group">
+        <label>Texto de cita:</label>
+        <input type="color" id="input-quote-text" value="#FFFFFF">
+      </div>
+
+      <div class="form-group">
+        <label>Texto de habilidades:</label>
+        <input type="color" id="input-abilities-text" value="#FFFFFF">
+      </div>
+
+      <div class="form-group">
+        <label>Texto del nombre:</label>
+        <input type="color" id="input-name-text" value="#FFFFFF">
+      </div>
+
+      <div class="form-group">
+        <label>Texto del tipo:</label>
+        <input type="color" id="input-type-text" value="#FFFFFF">
+      </div>
+
+      <div class="form-group">
+        <label>Texto de rareza:</label>
+        <input type="color" id="input-rareza-text" value="#FFD700">
+      </div>
+
+      <div class="form-group">
+        <label>Texto de cualidad:</label>
+        <input type="color" id="input-cualidad-text" value="#00B0FF">
+      </div>
+
+      <div class="form-group">
+        <!-- Espacio vacío para balance -->
+      </div>
+
+      <!-- BOTONES -->
+      <div class="button-group">
+        <button onclick="actualizarCarta()">Actualizar Carta</button>
+        <button onclick="descargarImagen()">Descargar Imagen</button>
+      </div>
+    </div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script>
     function actualizarCarta() {
+      // Textos
       document.getElementById("name-box").innerText = document.getElementById("input-name").value;
       document.getElementById("stats").innerText = document.getElementById("input-stats").value;
       document.getElementById("quote").innerText = `"${document.getElementById("input-quote").value}"`;
@@ -324,9 +537,25 @@ Velocidad = 8</textarea>
       document.getElementById("rareza").innerText = document.getElementById("input-rareza").value;
       document.getElementById("cualidad").innerText = document.getElementById("input-cualidad").value;
 
-      // Colores
+      // Colores principales
       document.querySelector(".card").style.background = document.getElementById("input-bg").value;
       document.getElementById("inner-border").style.borderColor = document.getElementById("input-border").value;
+      document.getElementById("corner").style.background = document.getElementById("input-corner").value;
+
+      // Colores de fondo
+      document.getElementById("stats").style.background = document.getElementById("input-stats-bg").value;
+      document.getElementById("quote").style.background = document.getElementById("input-quote-bg").value;
+      document.getElementById("abilities").style.background = document.getElementById("input-abilities-bg").value;
+      document.getElementById("name-box").style.background = document.getElementById("input-name-bg").value;
+
+      // Colores de texto
+      document.getElementById("stats").style.color = document.getElementById("input-stats-text").value;
+      document.getElementById("quote").style.color = document.getElementById("input-quote-text").value;
+      document.getElementById("abilities").style.color = document.getElementById("input-abilities-text").value;
+      document.getElementById("name-box").style.color = document.getElementById("input-name-text").value;
+      document.getElementById("fighter-type").style.color = document.getElementById("input-type-text").value;
+      document.getElementById("rareza").style.color = document.getElementById("input-rareza-text").value;
+      document.getElementById("cualidad").style.color = document.getElementById("input-cualidad-text").value;
 
       // Imágenes
       const charFile = document.getElementById("input-character").files[0];
@@ -341,6 +570,41 @@ Velocidad = 8</textarea>
       if (weapon2File) {
         document.getElementById("weapon2").src = URL.createObjectURL(weapon2File);
       }
+
+      // Actualizar etiquetas de armas
+    document.getElementById("weapon1-label").innerText =
+      document.getElementById("input-weapon1-type").value || "Arma";
+    document.getElementById("weapon2-label").innerText =
+      document.getElementById("input-weapon2-type").value || "Arma";
+      
+      document.getElementById("weapon1-label").style.color = document.getElementById("input-weapon1-text").value;
+      document.getElementById("weapon2-label").style.color = document.getElementById("input-weapon2-text").value;
+  }
+
+  // Evita repetir categorías en las armas
+  function actualizarOpciones() {
+    const select1 = document.getElementById("input-weapon1-type");
+    const select2 = document.getElementById("input-weapon2-type");
+
+    const val1 = select1.value;
+    const val2 = select2.value;
+
+    // Reinicia estados
+    [...select1.options].forEach(opt => opt.disabled = false);
+    [...select2.options].forEach(opt => opt.disabled = false);
+
+    // Deshabilita la opción elegida en el otro select
+    if (val1) {
+      [...select2.options].forEach(opt => {
+        if (opt.value === val1) opt.disabled = true;
+      });
+    }
+    if (val2) {
+      [...select1.options].forEach(opt => {
+        if (opt.value === val2) opt.disabled = true;
+      });
+    }
+
     }
 
     function descargarImagen() {
@@ -350,7 +614,6 @@ Velocidad = 8</textarea>
         useCORS: true,
         allowTaint: false
       }).then(canvas => {
-        // Escalar a 1500x2100
         const finalCanvas = document.createElement("canvas");
         finalCanvas.width = 1500;
         finalCanvas.height = 2100;
