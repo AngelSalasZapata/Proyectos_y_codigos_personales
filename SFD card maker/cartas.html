@@ -44,15 +44,6 @@
       pointer-events: none;
     }
 
-    .corner {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 80px;
-      height: 80px;
-      background: #FFD700;
-      clip-path: polygon(100% 0, 0 0, 100% 100%);
-    }
 
     .section {
       padding: 8px 12px;
@@ -282,7 +273,6 @@
   <!-- Carta -->
   <div id="carta" class="card">
     <div class="inner-border" id="inner-border"></div>
-    <div class="corner" id="corner"></div>
 
     <div class="section stats" id="stats">
 Estadística 1
@@ -446,10 +436,6 @@ Estadística 6</textarea>
         <input type="color" id="input-border" value="#FFD700">
       </div>
 
-      <div class="form-group">
-        <label>Color de la esquina:</label>
-        <input type="color" id="input-corner" value="#FFD700">
-      </div>
 
       <div class="form-group">
         <label>Fondo de estadísticas:</label>
@@ -540,7 +526,7 @@ Estadística 6</textarea>
       // Colores principales
       document.querySelector(".card").style.background = document.getElementById("input-bg").value;
       document.getElementById("inner-border").style.borderColor = document.getElementById("input-border").value;
-      document.getElementById("corner").style.background = document.getElementById("input-corner").value;
+
 
       // Colores de fondo
       document.getElementById("stats").style.background = document.getElementById("input-stats-bg").value;
