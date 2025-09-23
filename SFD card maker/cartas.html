@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Carta Personalizada Editable</title>
+  <title>Editor de Cartas SFD</title>
   <style>
     @font-face {
       font-family: 'uni0553';
@@ -62,22 +62,30 @@
 
     .quote { 
       font-style: italic; 
+      height: 50px;
       text-align: center; 
       margin: 8px 15px;
-      font-size: 11px;
+      font-size: 12px;
     }
 
     .abilities { 
-      font-weight: bold; 
       text-align: center;
-      margin: 8px 15px;
+  margin: 8px 15px;
+  font-size: 12px;
+  width: calc(100% - 30px); /* se adapta al ancho de la carta menos márgenes */
+  height: 100px; /* ajusta a lo que quieras, por ejemplo para 3-4 renglones */
+  overflow-y: auto; /* si se pasa el texto, aparece scroll */
+  background: rgba(0,0,0,0.4); /* opcional, para que quede con fondo */
+  border: 2px solid #000; /* igual al estilo de stats/frase */
+  border-radius: 3px;
+  box-sizing: border-box;
     }
 
     .name-box {
       padding: 6px 12px;
       margin: 8px 15px;
       border: 2px solid #000;
-      font-size: 13px;
+      font-size: 20px;
       text-align: center;
     }
 
@@ -97,14 +105,12 @@
       left: 15px;
       right: 15px;
       bottom: 0;
-      background: rgba(0,0,0,0.3);
-      border: 2px solid #000;
-      border-radius: 3px;
+      background: transparent;
     }
 
     .character {
-      width: 120px;
-      height: 120px;
+      width: 130px;
+      height: 130px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -113,9 +119,12 @@
     }
 
     .character img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
+       max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  display: block;
+  margin: auto;
     }
 
     .weapons {
@@ -125,20 +134,28 @@
       margin: 10px 0;
     }
 
-    .weapon {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 80px;
-      height: 60px;
-      background: transparent;
-    }
+.weapon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* espacio entre imagen y texto */
+  width: auto;
+  background: transparent;
+}
 
-    .weapon img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
+.weapon img {
+  max-width: 60px;
+  max-height: 60px;
+  width: auto;
+  height: auto;
+  display: block;
+}
+
+.weapon span {
+  font-size: 15px;
+  white-space: nowrap;
+}
+
 
     .fighter-type {
       text-align: center;
@@ -150,7 +167,7 @@
     .rareza {
       position: absolute;
       bottom: 16px;
-      left: 15px;
+      left: 135px;
       color: #FFD700;
       font-size: 15px;
     }
@@ -158,7 +175,7 @@
     .cualidad {
       position: absolute;
       bottom: 16px;
-      right: 15px;
+      right: 135px;
       color: #00b0ff;
       font-size: 15px;
     }
@@ -201,9 +218,8 @@
     .editor label {
       display: block;
       margin-bottom: 5px;
-      font-size: 13px;
+      font-size: 15px;
       color: #FFD700;
-      font-weight: bold;
     }
 
     .editor input, .editor textarea, .editor select {
@@ -284,7 +300,7 @@ Estadística 6
     </div>
 
     <div class="section quote" id="quote">
-      "Texto de cita"
+      "Texto de frase"
     </div>
 
     <div class="section abilities" id="abilities">
@@ -302,6 +318,11 @@ Estadística 6
     </div>
 
   <!-- En la carta -->
+
+    <div class="fighter-type" id="fighter-type">
+      Tipo: Luchador
+    </div>
+
   <div class="weapons">
     <div class="weapon">
       <img id="weapon1" src="" alt="Arma melee">
@@ -313,18 +334,21 @@ Estadística 6
     </div>
   </div>
 
-
-    <div class="fighter-type" id="fighter-type">
-      Tipo: Luchador
-    </div>
-
     <div class="rareza" id="rareza">Común</div>
     <div class="cualidad" id="cualidad">Cualidad</div>
   </div>
 
   <!-- Editor -->
   <div class="editor">
-    <h3>Editor de Carta</h3>
+    <h3>Editor de Cartas SFD - by angel365</h3>
+     <p style="text-align: center; font-size: 14px; color: #FFD700; margin-bottom: 20px;">
+    Bienvenido al editor de cartas personalizadas de Superfighters Deluxe. 
+    Para ver la documentación de las reglas, haz clic 
+    <a id="doc-link" href="#" target="_blank" 
+       style="color: #00B0FF; font-weight: bold; text-decoration: underline; cursor: pointer;">
+       aquí
+    </a>.
+  </p>
     <div class="form-grid">
       <!-- CONTENIDO -->
       <div class="section-title">📝 CONTENIDO</div>
@@ -350,8 +374,8 @@ Estadística 6</textarea>
       </div>
 
       <div class="form-group">
-        <label>Cita:</label>
-        <input type="text" id="input-quote" value="Texto de cita">
+        <label>Frase:</label>
+        <input type="text" id="input-quote" value="Texto de frase">
       </div>
 
       <div class="form-group">
@@ -376,7 +400,7 @@ Estadística 6</textarea>
       </div>
 
       <!-- IMÁGENES -->
-      <div class="section-title">🖼️ IMÁGENES</div>
+      <div class="section-title">🖼️ IMÁGENES (de preferencia el personaje 340x400px)</div>
 
       <div class="form-group">
         <label>Imagen del personaje:</label>
@@ -400,9 +424,9 @@ Estadística 6</textarea>
           <option value="">-- Seleccionar --</option>
           <option value="Arma melee">Arma melee</option>
           <option value="Arma de fuego">Arma de fuego</option>
-          <option value="Objeto">Objeto</option>
+          <option value="Objeto makeshift">Objeto makeshift</option>
           <option value="Explosivo">Explosivo</option>
-          <option value="Arrojable">Arrojable</option>
+          <option value="Objeto arrojadizo">Objeto arrojadizo</option>
         </select>
       </div>
 
@@ -413,9 +437,9 @@ Estadística 6</textarea>
           <option value="">-- Seleccionar --</option>
           <option value="Arma melee">Arma melee</option>
           <option value="Arma de fuego">Arma de fuego</option>
-          <option value="Objeto">Objeto</option>
+          <option value="Objeto makeshift">Objeto makeshift</option>
           <option value="Explosivo">Explosivo</option>
-          <option value="Arrojable">Arrojable</option>
+          <option value="Objeto arrojadizo">Objeto arrojadizo</option>
         </select>
       </div>
 
@@ -443,7 +467,7 @@ Estadística 6</textarea>
       </div>
 
       <div class="form-group">
-        <label>Fondo de cita:</label>
+        <label>Fondo de frase:</label>
         <input type="color" id="input-quote-bg" value="#333333">
       </div>
 
@@ -470,7 +494,7 @@ Estadística 6</textarea>
       </div>
 
       <div class="form-group">
-        <label>Texto de cita:</label>
+        <label>Texto de frase:</label>
         <input type="color" id="input-quote-text" value="#FFFFFF">
       </div>
 
