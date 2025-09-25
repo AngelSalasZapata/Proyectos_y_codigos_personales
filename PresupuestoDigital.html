@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Presupuesto Digital</title>
+    <title>Presupuesto Digital Nachito</title>
     <style>
         body {
             background: linear-gradient(135deg, #219c2f 0%, #fff821 100%);
@@ -173,20 +173,19 @@
 
         .modal-content {
             background-color: white;
-            margin: 5% auto;
+            margin: 2% auto;             
             padding: 0;
             border-radius: 20px;
-            width: 90%;
-            max-width: 800px;
-            max-height: 80vh;
-            overflow-y: auto;
+            width: 100%;               
+            max-width: 1500px;          
+            max-height: 100vh;                  
             box-shadow: 0 20px 40px rgba(0,0,0,0.2);
         }
 
         .modal-header {
             background: linear-gradient(45deg, #667eea, #764ba2);
             color: white;
-            padding: 20px 30px;
+            padding: 5px 5px;
             border-radius: 20px 20px 0 0;
             display: flex;
             justify-content: space-between;
@@ -207,7 +206,9 @@
         }
 
         .modal-body {
-            padding: 30px;
+            padding: 20px 30px;
+            max-height: calc(90vh - 150px); 
+            overflow-y: auto;            
         }
 
         .form-grid {
@@ -262,9 +263,9 @@
 
         .totals {
             background: #e2e8f0;
-            padding: 15px;
+            padding: 5px;
             border-radius: 10px;
-            margin-top: 20px;
+            margin-top: 10px;
             text-align: center;
         }
 
@@ -321,7 +322,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>💰 Presupuesto Digital 💰</h1>
+            <h1>💰 Presupuesto Digital Nachito 💰</h1>
         </div>
         
         <div class="main-content">
@@ -411,7 +412,7 @@
                         </div>
                     </div>
 
-                    <div class="totals" style="margin-top: 30px; padding: 20px; background: #f0f4f8;">
+                    <div class="totals" style="margin-top: 10px; padding: 10px; background: #f0f4f8;">
                         <h3>Balance del Día: $<span id="day-balance">0.00</span></h3>
                     </div>
 
